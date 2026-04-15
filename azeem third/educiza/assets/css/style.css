@@ -425,6 +425,7 @@ html{
 }
 .banner-con .banner_content h1{
     margin-bottom: 15px;
+    
 }
 .banner-con .banner_content h1 span {
     color: var(--e-global-color-accent);
@@ -2200,7 +2201,7 @@ html{
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url(../images/banner3-backgroundimage.jpg);
+    background-image: url("/static/images/banner3-backgroundimage.jpg");
 }
 .banner3-con .banner-lefttopcurve {
     position: absolute;

@@ -138,6 +138,7 @@ STATICFILES_FINDERS = [
 
 STATICFILES_DIRS = [
     BASE_DIR / "assets",      #  looks in myproject/assets/ — CORRECT
+    BASE_DIR / "home" / "assets",
 ]
 
 STATIC_ROOT = BASE_DIR / "static"

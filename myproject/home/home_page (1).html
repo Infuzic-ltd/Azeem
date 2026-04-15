@@ -1,0 +1,727 @@
+{% load wagtailcore_tags wagtailimages_tags static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{{ page.seo_title|default:page.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta charset="utf-8">
+    <meta name="description" content="{{ page.meta_description }}">
+    <meta name="keywords" content="{{ page.meta_keywords }}">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/favicon/apple-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicon/apple-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
+    <!-- Font Awesome (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="{% static 'css/new/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/new/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/new/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/new/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/new/aos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/new/magnific-popup.css' %}">
+</head>
+
+<body>
+
+<!-- Back to top button -->
+<a id="button"></a>
+
+<div class="home_banner_outer position-relative">
+
+    <!--==============================
+    Header / Navbar
+    ==============================-->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light p-0">
+                <a class="navbar-brand" href="/">
+                    <figure class="logo mb-0">
+                        {% if page.logo %}
+                            {% image page.logo original as nav_logo %}
+                            <img src="{{ nav_logo.url }}" alt="{{ page.title }}" class="img-fluid">
+                        {% endif %}
+                    </figure>
+                </a>
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        {% for item in page.nav_items.all %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ item.url }}">{{ item.label }}</a>
+                        </li>
+                        {% endfor %}
+                        <li class="nav-item">
+                            <a class="nav-link log_in" href="{{ page.login_url }}">
+                                Log in<i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="phone-number">
+                    <i class="fa-solid fa-phone"></i>
+                    <a href="tel:{{ page.header_phone }}" class="text-decoration-none">
+                        <span class="number">{{ page.header_phone }}</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!--==============================
+    Banner / Hero Section
+    ==============================-->
+    <section class="banner3-con position-relative">
+        <figure class="banner-lefttopcurve image mb-0">
+            <img src="{% static 'images/banner3-lefttopcurve.png' %}" alt="image" class="img-fluid">
+        </figure>
+        <figure class="banner-rightbottomcurve image mb-0">
+            <img src="{% static 'images/banner3-rightbottomcurve.png' %}" alt="image" class="img-fluid">
+        </figure>
+        <div class="container position-relative">
+            <div class="row align-items-center">
+                <div class="col-lg-10 col-12 mx-auto">
+                    <div class="banner_content text-center position-relative" data-aos="fade-up">
+                        {% if page.hero_logo_icon %}
+                        <figure class="banner-logoicon">
+                            {% image page.hero_logo_icon original as hero_icon %}
+                            <img src="{{ hero_icon.url }}" alt="image" class="img-fluid">
+                        </figure>
+                        {% endif %}
+                        <h1 class="text-white">{{ page.hero_title }}</h1>
+                        <p class="text-white text-size-18">{{ page.hero_description }}</p>
+                        <a href="{{ page.hero_btn_url }}" class="text-decoration-none primary_btn">
+                            {{ page.hero_btn_label }}<i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1 mx-auto">
+                    <a href="#dropdown" class="top-btn text-center">
+                        <figure class="banner-dropdownimage mb-0">
+                            <img src="{% static 'images/banner-dropdownimage.png' %}" class="img-fluid" alt="image">
+                        </figure>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <figure class="banner-circleimage mb-0">
+            <img src="{% static 'images/banner3-circleimage.png' %}" alt="image" class="img-fluid">
+        </figure>
+        <figure class="banner-crossimage mb-0">
+            <img src="{% static 'images/banner3-crossimage.png' %}" alt="image" class="img-fluid">
+        </figure>
+    </section>
+</div>
+
+<!--==============================
+Why Choose Us / Features Section
+==============================-->
+<section class="choose3-con position-relative" id="dropdown">
+    <figure class="choose-halfcircleimage mb-0">
+        <img src="{% static 'images/choose3-halfcircleimage.png' %}" alt="image" class="img-fluid">
+    </figure>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="choose_content position-relative" data-aos="fade-up">
+                    <h6>{{ page.choose_subtitle }}</h6>
+                    <h2>{{ page.choose_title }}</h2>
+                    <p class="text1 text-size-18">{{ page.choose_text1 }}</p>
+                    <p class="text2 text-size-18">{{ page.choose_text2 }}</p>
+                    <a href="{{ page.choose_btn_url }}" class="text-decoration-none primary_btn">
+                        {{ page.choose_btn_label }}<i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <figure class="choose-circleimage mb-0">
+                        <img src="{% static 'images/choose3-circleimage.png' %}" alt="image" class="img-fluid">
+                    </figure>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="choose_contentbox" data-aos="fade-up">
+                    <div class="row">
+                        {% for block in page.feature_boxes %}
+                        {% if block.block_type == 'feature_box' %}
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 column">
+                            <div class="{% if forloop.counter <= 2 %}box-top{% endif %}">
+                                <div class="choose-box box{{ forloop.counter }} {% if forloop.counter <= 2 %}box-mb{% endif %}">
+                                    <figure class="icon icon{{ forloop.counter }}">
+                                        {% image block.value.icon original as fb_icon %}
+                                        <img src="{{ fb_icon.url }}" alt="image" class="img-fluid">
+                                    </figure>
+                                    <h3>{{ block.value.title }}</h3>
+                                    <p class="text-size-16">{{ block.value.text }}</p>
+                                    <a href="{{ block.value.link_url }}" class="text-decoration-none arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==============================
+About Section
+==============================-->
+<section class="about3-con position-relative">
+    <figure class="about-rightimage mb-0">
+        <img src="{% static 'images/about-rightimage.png' %}" alt="image" class="img-fluid">
+    </figure>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12 text-md-left text-center">
+                <div class="about_wrapper position-relative" data-aos="fade-up">
+                    {% if page.about_image1 %}
+                    <figure class="about-image1 mb-0">
+                        {% image page.about_image1 original as ab1 %}
+                        <img src="{{ ab1.url }}" alt="image" class="img-fluid">
+                    </figure>
+                    {% endif %}
+                    <div class="video-image">
+                        {% if page.about_image2 %}
+                        <figure class="about-image2 mb-0">
+                            {% image page.about_image2 original as ab2 %}
+                            <img src="{{ ab2.url }}" alt="image" class="img-fluid">
+                        </figure>
+                        {% endif %}
+                        {% if page.about_video_url %}
+                        <div class="icon">
+                            <a class="popup-vimeo" href="{{ page.about_video_url }}">
+                                <div class="mb-0 video-icon">
+                                    <img class="thumb img-fluid" style="cursor: pointer"
+                                        src="{% static 'images/about3-playicon.png' %}" alt="image">
+                                </div>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="about_content" data-aos="fade-up">
+                    <h6>{{ page.about_subtitle }}</h6>
+                    <h2>{{ page.about_title }}</h2>
+                    <p class="text-size-18 text">{{ page.about_description }}</p>
+                    <ul class="list-unstyled">
+                        {% for block in page.about_checklist %}
+                        {% if block.block_type == 'checklist_item' %}
+                        <li>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            <p class="mb-0 text-size-16">{{ block.value }}</p>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% if page.about_mission_text %}
+                    <div class="box">
+                        {% if page.about_mission_icon %}
+                        <figure class="about-icon mb-0">
+                            {% image page.about_mission_icon original as mission_icon %}
+                            <img src="{{ mission_icon.url }}" alt="image" class="img-fluid">
+                        </figure>
+                        {% endif %}
+                        <h3 class="mb-0">{{ page.about_mission_text }}</h3>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==============================
+Courses Section
+==============================-->
+<section class="course-popular-con">
+    <div class="popular-con position-relative">
+        <figure class="popular-lefttopimage mb-0">
+            <img src="{% static 'images/popular-lefttopimage.png' %}" alt="image" class="img-fluid">
+        </figure>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="popular_content text-center position-relative" data-aos="fade-up">
+                        <h6>{{ page.courses_subtitle }}</h6>
+                        <h2 class="text-white">{{ page.courses_title }}</h2>
+                        <figure class="popular-crossimage mb-0">
+                            <img src="{% static 'images/contactform-crossimage.png' %}" alt="image" class="img-fluid">
+                        </figure>
+                        <figure class="popular-triangleimage mb-0">
+                            <img src="{% static 'images/popular-triangleimage.png' %}" alt="image" class="img-fluid">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="course-con position-relative">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="tabs-box tabs-options">
+                        <!-- Tab Navigation -->
+                        <ul class="nav nav-tabs" data-aos="fade-up">
+                            <li><a class="active" data-toggle="tab" href="#all">All</a></li>
+                            {% for block in page.course_tabs %}
+                            {% if block.block_type == 'course_tab' %}
+                            <li>
+                                <a data-toggle="tab" href="#tab-{{ forloop.counter }}">{{ block.value.tab_label }}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <div class="tab-content">
+                            <!-- All Courses Tab -->
+                            <div id="all" class="tab-pane fade in active show">
+                                <div class="row all_row" data-aos="fade-up">
+                                    {% for block in page.all_courses %}
+                                    {% if block.block_type == 'course_card' %}
+                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12 mx-auto all_column">
+                                        <div class="course-box all_boxes">
+                                            <figure class="image mb-0">
+                                                {% image block.value.image original as c_img %}
+                                                <img src="{{ c_img.url }}" alt="image" class="img-fluid">
+                                            </figure>
+                                            <div class="lower_content all_boxes">
+                                                <div class="content">
+                                                    <div class="calendar">
+                                                        <i class="fa-solid fa-book"></i>
+                                                        <span class="day">{{ block.value.lessons }} Lessons</span>
+                                                    </div>
+                                                    <div class="people">
+                                                        <i class="fa-solid fa-user"></i>
+                                                        <span class="person">{{ block.value.students }} Students</span>
+                                                    </div>
+                                                </div>
+                                                <a href="#" class="text-decoration-none all_boxes"
+                                                    data-toggle="modal" data-target="#course-modal-{{ forloop.counter }}">
+                                                    <h5>{{ block.value.title }}</h5>
+                                                </a>
+                                                <div class="value">
+                                                    <span class="money">${{ block.value.price }}</span>
+                                                    <a href="{{ block.value.enroll_url }}" class="text-decoration-none enroll_now">
+                                                        Enroll Now<i class="fa-solid fa-arrow-right"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!-- Category Tabs -->
+                            {% for block in page.course_tabs %}
+                            {% if block.block_type == 'course_tab' %}
+                            <div id="tab-{{ forloop.counter }}" class="tab-pane fade">
+                                <div class="row all_row" data-aos="fade-up">
+                                    {% for course in block.value.courses %}
+                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12 mx-auto all_column">
+                                        <div class="course-box all_boxes">
+                                            <figure class="image mb-0">
+                                                {% image course.image original as tab_img %}
+                                                <img src="{{ tab_img.url }}" alt="image" class="img-fluid">
+                                            </figure>
+                                            <div class="lower_content all_boxes">
+                                                <div class="content">
+                                                    <div class="calendar">
+                                                        <i class="fa-solid fa-book"></i>
+                                                        <span class="day">{{ course.lessons }} Lessons</span>
+                                                    </div>
+                                                    <div class="people">
+                                                        <i class="fa-solid fa-user"></i>
+                                                        <span class="person">{{ course.students }} Students</span>
+                                                    </div>
+                                                </div>
+                                                <h5>{{ course.title }}</h5>
+                                                <div class="value">
+                                                    <span class="money">${{ course.price }}</span>
+                                                    <a href="{{ course.enroll_url }}" class="text-decoration-none enroll_now">
+                                                        Enroll Now<i class="fa-solid fa-arrow-right"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==============================
+Benefits / Stats Counter Section
+==============================-->
+<section class="benefit-con benefit3-con position-relative">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="benefit_content text-center" data-aos="fade-up">
+                    <h6>{{ page.benefit_subtitle }}</h6>
+                    <h2>{{ page.benefit_title }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row all_row" data-aos="fade-up">
+            {% for block in page.stat_counters %}
+            {% if block.block_type == 'stat_counter' %}
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6 all_column">
+                <div class="benefit-box box{{ forloop.counter }}">
+                    <span class="number counter">{{ block.value.number }}</span>
+                    <sup class="plus">{{ block.value.suffix }}</sup>
+                    <span class="text">{{ block.value.label }}</span>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!--==============================
+Journey / CTA Section
+==============================-->
+<section class="journey-con position-relative">
+    <figure class="journey-lefttopcurve image mb-0">
+        <img src="{% static 'images/journey-lefttopcurve.png' %}" alt="image" class="img-fluid">
+    </figure>
+    <figure class="journey-rightbottomcurve image mb-0">
+        <img src="{% static 'images/journey-rightbottomcurve.png' %}" alt="image" class="img-fluid">
+    </figure>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-12 mx-auto">
+                <div class="journey_content text-center" data-aos="fade-up">
+                    {% if page.journey_icon %}
+                    <figure class="journey-logoicon">
+                        {% image page.journey_icon original as j_icon %}
+                        <img src="{{ j_icon.url }}" alt="image" class="img-fluid">
+                    </figure>
+                    {% endif %}
+                    <h6>{{ page.journey_subtitle }}</h6>
+                    <h2 class="text-white">{{ page.journey_title }}</h2>
+                    <a href="{{ page.journey_btn_url }}" class="text-decoration-none primary_btn">
+                        {{ page.journey_btn_label }}<i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==============================
+Testimonials Section
+==============================-->
+<section class="testimonial3-con position-relative">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="testimonial_content text-center" data-aos="fade-up">
+                    <h6>{{ page.testimonial_subtitle }}</h6>
+                    <h2>{{ page.testimonial_title }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row" data-aos="fade-up">
+            <div class="col-12">
+                <div class="owl-carousel owl-theme">
+                    {% for block in page.testimonials %}
+                    {% if block.block_type == 'testimonial' %}
+                    <div class="item">
+                        <div class="testimonial-box">
+                            <figure class="testimonial-quoteimage">
+                                <img src="{% static 'images/testimonial3-quoteimage.png' %}"src="{% static 'images/testimonial3-quoteimage.png' %}" alt="image" class="img-fluid">
+                            </figure>
+                            <p class="text-size-16">{{ block.value.review }}</p>
+                            <div class="review-content">
+                                <figure class="testimonial-personimage mb-0">
+                                    {% image block.value.photo original as t_photo %}
+                                    <img src="{{ t_photo.url }}" alt="image" class="img-fluid">
+                                </figure>
+                                <div class="detail">
+                                    <ul class="list-unstyled">
+                                        {% for i in "12345" %}
+                                        <li><i class="fa-solid fa-star"></i></li>
+                                        {% endfor %}
+                                    </ul>
+                                    <span class="name">{{ block.value.name }}</span>
+                                    <span class="review">{{ block.value.role }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==============================
+Blog / Articles Section
+==============================-->
+<section class="article3-con position-relative">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="article_content text-center" data-aos="fade-up">
+                    <h6>{{ page.blog_subtitle }}</h6>
+                    <h2>{{ page.blog_title }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row" data-aos="fade-up">
+            <div class="col-12">
+                <div class="owl-carousel owl-theme">
+                    {% for block in page.blog_posts %}
+                    {% if block.block_type == 'blog_post' %}
+                    <div class="item">
+                        <div class="article-box">
+                            <figure class="mb-0">
+                                {% image block.value.image original as bl_img %}
+                                <img src="{{ bl_img.url }}" alt="image" class="img-fluid">
+                            </figure>
+                            <div class="box-content">
+                                <div class="span_wrapper">
+                                    <span>{{ block.value.date|date:"F d, Y" }}</span>
+                                    <span class="dash">-</span>
+                                    <span>{{ block.value.comments }} Comments</span>
+                                </div>
+                                <a href="{{ block.value.link_url }}" class="text-decoration-none">
+                                    <h4>{{ block.value.title }}</h4>
+                                </a>
+                                <p class="text-size-16">{{ block.value.excerpt }}</p>
+                                <a href="{{ block.value.link_url }}" class="read_more text-decoration-none">
+                                    Read More <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==============================
+Footer
+==============================-->
+<section class="footer-con position-relative">
+    <figure class="footer-rightimage mb-0">
+        <img src="{% static 'images/footer-rightimage.png' %}" class="img-fluid" alt="image">
+    </figure>
+    <!-- Newsletter -->
+    <div class="footer_upperportion position-relative">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="upper_portion">
+                        <a href="/">
+                            <figure class="footer-logo mb-0">
+                                {% if page.footer_logo %}
+                                    {% image page.footer_logo original as ft_logo %}
+                                    <img class="img-fluid" src="{{ ft_logo.url }}" alt="image">
+                                {% endif %}
+                            </figure>
+                        </a>
+                        <h4>{{ page.newsletter_heading }}</h4>
+                        <form action="javascript:;">
+                            <div class="form-group position-relative mb-0">
+                                <input type="text" class="form_style" placeholder="Enter Email Address" name="email">
+                                <button><i class="send fa-sharp fa-solid fa-paper-plane"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer Links -->
+    <div class="footer_lowerportion position-relative">
+        <div class="container">
+            <div class="middle_portion">
+                <div class="row">
+                    <!-- About -->
+                    <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12 col-12">
+                        <div class="logo-content">
+                            <h4 class="heading">About Us</h4>
+                            <p class="text-size-14 text">{{ page.footer_about_text }}</p>
+                            <ul class="list-unstyled mb-0 social-icons">
+                                {% for link in page.social_links.all %}
+                                <li>
+                                    <a href="{{ link.url }}" class="text-decoration-none">
+                                        <i class="fa-brands fa-{{ link.platform }} social-networks"></i>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Useful Links -->
+                    <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-6">
+                        <div class="links">
+                            <h4 class="heading">Useful Links</h4>
+                            <ul class="list-unstyled mb-0">
+                                {% for item in page.nav_items.all %}
+                                <li>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    <a href="{{ item.url }}">{{ item.label }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Explore Links -->
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6">
+                        <div class="use-link links">
+                            <h4 class="heading">Explore</h4>
+                            <ul class="list-unstyled mb-0">
+                                {% for link in page.footer_explore_links.all %}
+                                <li>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    <a href="{{ link.url }}">{{ link.label }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Contact -->
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
+                        <div class="icon">
+                            <h4 class="heading">Contact Us</h4>
+                            <ul class="list-unstyled mb-0">
+                                {% if page.footer_phone %}
+                                <li class="text">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <a href="tel:{{ page.footer_phone }}" class="text-decoration-none">{{ page.footer_phone }}</a>
+                                </li>
+                                {% endif %}
+                                {% if page.footer_email %}
+                                <li class="text">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <a href="mailto:{{ page.footer_email }}" class="text-decoration-none">{{ page.footer_email }}</a>
+                                </li>
+                                {% endif %}
+                                {% if page.footer_address %}
+                                <li class="text">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <a href="#" class="text-decoration-none address mb-0">{{ page.footer_address }}</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Copyright -->
+            <div class="copyright">
+                <p class="mb-0">{{ page.footer_copyright }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==============================
+Course Popup Modals
+==============================-->
+{% for block in page.all_courses %}
+{% if block.block_type == 'course_card' %}
+<div class="project_modal">
+    <div id="course-modal-{{ forloop.counter }}" class="modal fade blog-model-con" tabindex="-1"
+        style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa-solid fa-x"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="blog-box-item mb-0">
+                        <div class="blog-img">
+                            <figure class="mb-0">
+                                {% image block.value.image original as modal_img %}
+                                <img src="{{ modal_img.url }}" alt="image" class="img-fluid">
+                            </figure>
+                        </div>
+                        <div class="project_content">
+                            <h4>{{ block.value.title }}</h4>
+                            <span class="text">{{ block.value.modal_description }}</span>
+                            {% if block.value.modal_features %}
+                            <div class="properties">
+                                <ul class="list-unstyled mb-0">
+                                    {% for feature in block.value.modal_features %}
+                                    <li class="text-size-16">
+                                        <i class="circle fa fa-check" aria-hidden="true"></i>{{ feature }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                            <a href="{{ block.value.enroll_url }}" class="text-decoration-none primary_btn">
+                                Read More<i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+
+<!-- Preloader -->
+<div class="loader-mask">
+    <div class="loader">
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/aos.js' %}"></script>
+<script src="{% static 'js/owl.carousel.js' %}"></script>
+<script src="{% static 'js/carousel.js' %}"></script>
+<script src="{% static 'js/animation.js' %}"></script>
+<script src="{% static 'js/back-to-top-button.js' %}"></script>
+<script src="{% static 'js/preloader.js' %}"></script>
+<script src="{% static 'js/counter.js' %}"></script>
+<script src="{% static 'js/video.js' %}"></script>
+<script src="{% static 'js/video-popup.js' %}"></script>
+
+</body>
+</html>
