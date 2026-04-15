@@ -1,0 +1,924 @@
+{% load wagtailcore_tags wagtailimages_tags static %}
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{{ page.seo_title|default:page.title }}</title>
+    <meta name="description" content="{{ page.meta_description }}">
+    <meta name="keywords" content="{{ page.meta_keywords }}">
+    <meta name="robots" content="INDEX,FOLLOW">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!--==============================
+    Preloader
+    ==============================-->
+    <div class="preloader">
+        <button class="th-btn preloaderCls">Cancel Preloader</button>
+        <div class="preloader-inner">
+            {% if page.logo %}
+                {% image page.logo original as logo_img %}
+                <img src="{{ logo_img.url }}" alt="{{ page.title }}">
+            {% endif %}
+            <span class="loader">
+                {{ page.title }}
+                <span class="loading-text">{{ page.title }}</span>
+            </span>
+        </div>
+    </div>
+
+    <!--==============================
+    Sidemenu
+    ==============================-->
+    <div class="sidemenu-wrapper">
+        <div class="sidemenu-content">
+            <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
+            <div class="widget footer-widget">
+                <div class="th-widget-about">
+                    <div class="about-logo">
+                        <a href="/">
+                            {% if page.logo_dark %}
+                                {% image page.logo_dark original as logo_dark_img %}
+                                <img src="{{ logo_dark_img.url }}" alt="{{ page.title }}">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <p class="about-text">{{ page.footer_about_text }}</p>
+                    <div class="footer-info">
+                        {% if page.footer_address %}
+                        <a href="#">
+                            <span class="footer-info-icon"><i class="fa-solid fa-location-dot"></i></span>
+                            {{ page.footer_address }}
+                        </a>
+                        {% endif %}
+                        {% if page.footer_email %}
+                        <a href="mailto:{{ page.footer_email }}">
+                            <span class="footer-info-icon"><i class="fa-solid fa-envelope"></i></span>
+                            {{ page.footer_email }}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="widget footer-widget">
+                <h3 class="widget_title">Follow Us</h3>
+                <div class="th-social">
+                    {% for link in page.social_links.all %}
+                    <a href="{{ link.url }}">
+                        <i class="fab fa-{{ link.platform }}{% if link.platform == 'facebook' %}-f{% elif link.platform == 'twitter' %}-square{% elif link.platform == 'pinterest' %}-p{% elif link.platform == 'linkedin' %}-in{% endif %}"></i>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--==============================
+    Mobile Menu
+    ==============================-->
+    <div class="th-menu-wrapper">
+        <div class="th-menu-area text-center">
+            <button class="th-menu-toggle"><i class="fal fa-times"></i></button>
+            <div class="mobile-logo">
+                <a href="/">
+                    {% if page.logo %}
+                        {% image page.logo original as mob_logo %}
+                        <img src="{{ mob_logo.url }}" alt="{{ page.title }}">
+                    {% endif %}
+                </a>
+            </div>
+            <div class="th-mobile-menu">
+                <ul>
+                    {% for item in page.nav_items.all %}
+                    <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--==============================
+    Header Area
+    ==============================-->
+    <header class="th-header header-layout1">
+        <div class="header-top">
+            <div class="container th-container4">
+                <div class="row justify-content-center justify-content-lg-between align-items-center gy-2">
+                    <div class="col-auto d-none d-lg-block">
+                        <div class="header-links">
+                            <ul class="header-left-wrap">
+                                {% if page.header_phone %}
+                                <li>
+                                    <a href="tel:{{ page.header_phone }}">
+                                        <i class="fa-solid fa-phone"></i> {{ page.header_phone }}
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="header-logo">
+                            <a href="/">
+                                {% if page.logo %}
+                                    {% image page.logo original as hdr_logo %}
+                                    <img src="{{ hdr_logo.url }}" alt="{{ page.title }}">
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+                        <div class="header-right">
+                            <button class="icon-btn sideMenuToggler">
+                                <i class="far fa-bars-sort"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Nav -->
+        <div class="sticky-wrapper">
+            <div class="menu-area">
+                <div class="container th-container4">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-auto">
+                            <nav class="main-menu d-none d-lg-inline-flex">
+                                <ul>
+                                    {% for item in page.nav_items.all %}
+                                    <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-auto d-flex align-items-center gap-3">
+                            <button class="th-btn th-icon d-none d-lg-inline-flex" data-bs-toggle="modal" data-bs-target="#login-form">
+                                Apply Now
+                            </button>
+                            <button class="th-menu-toggle d-lg-none">
+                                <i class="far fa-bars"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!--==============================
+    Hero / Banner Section
+    ==============================-->
+    <div class="th-hero-wrapper hero-1">
+        <div class="container th-container2">
+            <div class="hero-style1">
+                <div class="sub-title-wrap">
+                    <span class="sub-title text-anim">{{ page.hero_subtitle }}</span>
+                </div>
+                <h1 class="hero-title text-anim2">{{ page.hero_title }}</h1>
+                <p class="hero-text wow fadeInUp" data-wow-delay=".5s">{{ page.hero_description }}</p>
+                <div class="btn-group wow fadeInUp" data-wow-delay=".7s">
+                    {% if page.hero_btn1_label %}
+                    <a href="{{ page.hero_btn1_url }}" class="th-btn th-icon">{{ page.hero_btn1_label }}</a>
+                    {% endif %}
+                    {% if page.hero_btn2_label %}
+                    <a href="{{ page.hero_btn2_url }}" class="th-btn style-border1 th-icon">{{ page.hero_btn2_label }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if page.hero_image %}
+        <div class="hero-img-wrap">
+            {% image page.hero_image original as hero_img %}
+            <img src="{{ hero_img.url }}" alt="Hero">
+        </div>
+        {% endif %}
+        {% if page.hero_badge_text %}
+        <div class="about-wrapp">
+            <div class="discount-wrapp">
+                <div class="discount-tag">
+                    <span class="discount-anime">* {{ page.hero_established_year }} EST * {{ page.hero_badge_text }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!--==============================
+    Feature Cards Section
+    ==============================-->
+    {% if page.feature_cards %}
+    <div class="feature-area1 position-relative space-top overflow-hidden">
+        <div class="container th-container2">
+            <div class="row gx-10 gy-10">
+                {% for block in page.feature_cards %}
+                {% if block.block_type == 'feature_card' %}
+                <div class="col-xl-3 col-md-6 feature-card_wrapp">
+                    <div class="feature-card wow fadeInUp" data-wow-delay=".{{ forloop.counter }}s">
+                        <div class="box-icon">
+                            {% image block.value.icon original as f_icon %}
+                            <img src="{{ f_icon.url }}" alt="icon">
+                        </div>
+                        <h3 class="box-title">{{ block.value.title }}</h3>
+                        <p class="box-text style2">{{ block.value.text }}</p>
+                        <a href="{{ block.value.link_url }}" class="th-btn style-border2 th-icon">{{ block.value.link_label }}</a>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!--==============================
+    About Section
+    ==============================-->
+    <div class="about1-area position-relative overflow-hidden space-bottom" id="about-sec">
+        <div class="container">
+            <div class="about-wrap1 position-relative z-index-2">
+                <div class="row gy-60 align-items-center justify-content-center">
+                    <div class="col-xl-6">
+                        <div class="img-box1">
+                            {% if page.about_image_main %}
+                            <div class="img1 text-center text-sm-start wow fadeInLeft" data-wow-delay=".2s">
+                                {% image page.about_image_main original as ab_img1 %}
+                                <img src="{{ ab_img1.url }}" alt="About">
+                            </div>
+                            {% endif %}
+                            {% if page.about_image_2 or page.about_image_3 %}
+                            <div class="img2 wow fadeInUp" data-wow-delay=".3s">
+                                {% if page.about_image_2 %}
+                                <div class="position-relative">
+                                    {% image page.about_image_2 original as ab_img2 %}
+                                    <img class="mb-25" src="{{ ab_img2.url }}" alt="About">
+                                </div>
+                                {% endif %}
+                                {% if page.about_image_3 %}
+                                <div class="position-relative wow fadeInUp" data-wow-delay=".3s">
+                                    {% image page.about_image_3 original as ab_img3 %}
+                                    <img src="{{ ab_img3.url }}" alt="About">
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            {% if page.hero_badge_text %}
+                            <div class="about-wrapp">
+                                <div class="discount-wrapp">
+                                    <div class="discount-tag">
+                                        <span class="discount-anime">* {{ page.hero_established_year }} EST * {{ page.hero_badge_text }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="about-content ms-xxl-4 ps-xxl-2 ms-xl-2">
+                            <div class="title-area">
+                                <span class="sub-title text-anim">{{ page.about_subtitle }}</span>
+                                <h2 class="sec-title text-anim2">{{ page.about_title }}</h2>
+                                <p class="sec-text mt-25 mb-0 wow fadeInUp" data-wow-delay=".2s">{{ page.about_description }}</p>
+                            </div>
+                            {% if page.about_features %}
+                            <div class="about-feature-box">
+                                {% for block in page.about_features %}
+                                {% if block.block_type == 'about_feature' %}
+                                <div class="about-feature wow fadeInUp" data-wow-delay=".{{ forloop.counter }}s">
+                                    <span class="box-icon">
+                                        {% image block.value.icon original as af_icon %}
+                                        <img src="{{ af_icon.url }}" alt="icon">
+                                    </span>
+                                    <div class="box-content">
+                                        <h3 class="box-title">{{ block.value.title }}</h3>
+                                        <p class="box-text">{{ block.value.text }}</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            <div class="btn-wrap wow fadeInUp" data-wow-delay=".5s">
+                                <a href="{{ page.about_btn_url }}" class="th-btn th-icon">{{ page.about_btn_label }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--==============================
+    Counter / Stats Bar
+    ==============================-->
+    {% if page.counter_stats %}
+    <div class="counter-area1 overflow-hidden">
+        <div class="container th-container2">
+            <div class="counter-wrap1">
+                {% for block in page.counter_stats %}
+                {% if block.block_type == 'counter' %}
+                <div class="counter-card wow fadeInUp" data-wow-delay=".{{ forloop.counter }}s">
+                    <div class="box-icon">
+                        {% image block.value.icon original as c_icon %}
+                        <img src="{{ c_icon.url }}" alt="icon">
+                    </div>
+                    <div class="media-body">
+                        <h3 class="box-number">
+                            <span class="counter-number">{{ block.value.number }}</span>{{ block.value.suffix }}
+                        </h3>
+                        <p class="box-text">{{ block.value.label }}</p>
+                    </div>
+                </div>
+                {% if not forloop.last %}<div class="divider"></div>{% endif %}
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!--==============================
+    Academic Programs Slider
+    ==============================-->
+    {% if page.program_cards %}
+    <section class="academic1-area space overflow-hidden" id="program-sec">
+        <div class="container">
+            <div class="row justify-content-lg-between justify-content-center align-items-center">
+                <div class="col-lg-9 col-12">
+                    <div class="title-area text-center text-lg-start mb-75">
+                        <span class="sub-title text-anim">{{ page.programs_subtitle }}</span>
+                        <h2 class="sec-title text-anim2">{{ page.programs_title }}</h2>
+                    </div>
+                </div>
+                <div class="col-auto align-self-end">
+                    <div class="sec-btn wow fadeInUp" data-wow-delay=".3s">
+                        <a href="{{ page.programs_explore_url }}" class="th-btn style-border1 th-icon">Explore All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="academic-wrapp">
+                <div class="slider-area">
+                    <div class="swiper th-slider has-shadow" id="academicSlider2"
+                        data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"992":{"slidesPerView":"2"},"1200":{"slidesPerView":"3"},"1400":{"slidesPerView":"3","spaceBetween":"24"}},"autoplay":"false"}'>
+                        <div class="swiper-wrapper">
+                            {% for block in page.program_cards %}
+                            {% if block.block_type == 'program' %}
+                            <div class="swiper-slide">
+                                <div class="academic-card">
+                                    <div class="academic-img">
+                                        <a href="{{ block.value.link_url }}">
+                                            {% image block.value.image original as prog_img %}
+                                            <img src="{{ prog_img.url }}" alt="program image">
+                                        </a>
+                                        <div class="academic-tag">
+                                            <span><i class="fa-solid fa-tags"></i> {{ block.value.tag }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="academic-content">
+                                        <h3 class="box-title">
+                                            <a href="{{ block.value.link_url }}">{{ block.value.title }}</a>
+                                        </h3>
+                                        <div class="academic-review">
+                                            {% for i in "12345" %}<span><i class="fa-solid fa-star"></i></span>{% endfor %}
+                                            <p class="review-text">({{ block.value.rating }})</p>
+                                        </div>
+                                        <p class="box-text style2">{{ block.value.description }}</p>
+                                    </div>
+                                    <div class="academic-meta-wrap">
+                                        <div class="academic-meta">
+                                            <a href="{{ block.value.link_url }}" class="subject">
+                                                <i class="fa-solid fa-messages"></i> {{ block.value.language }}
+                                            </a>
+                                            <a href="#" class="duration">
+                                                <i class="fa-solid fa-clock"></i> {{ block.value.duration }}
+                                            </a>
+                                        </div>
+                                        <a href="{{ block.value.link_url }}" class="th-btn style-border1 th-icon">Discover</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="slider-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!--==============================
+    Student Stories / Testimonials
+    ==============================-->
+    {% if page.testimonials %}
+    <section class="story-area1 space overflow-hidden">
+        <div class="container">
+            <div class="title-area text-center">
+                <span class="sub-title text-anim">{{ page.stories_subtitle }}</span>
+                <h2 class="sec-title text-anim2">{{ page.stories_title }}</h2>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="swiper th-slider story-slider1" id="storySlider1"
+                data-slider-options='{"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"2"},"992":{"slidesPerView":"4"},"1400":{"slidesPerView":"5"}},"spaceBetween":"0"}'>
+                <div class="swiper-wrapper">
+                    {% for block in page.testimonials %}
+                    {% if block.block_type == 'testimonial' %}
+                    <div class="swiper-slide">
+                        <div class="story-card">
+                            <div class="box-img">
+                                {% image block.value.photo original as story_img %}
+                                <img src="{{ story_img.url }}" alt="img">
+                            </div>
+                            <div class="story-content">
+                                <h3 class="box-title"><a href="{{ block.value.profile_url }}">{{ block.value.name }}</a></h3>
+                            </div>
+                            <div class="story-content hover-style">
+                                <div class="quote-icon">
+                                    <img src="{% static 'img/icon/quote.svg' %}" alt="">
+                                </div>
+                                <p class="box-text">"{{ block.value.quote }}"</p>
+                                <h3 class="box-title"><a href="{{ block.value.profile_url }}">{{ block.value.name }}</a></h3>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!--==============================
+    Events Section
+    ==============================-->
+    {% if page.events %}
+    <section class="event-area1 space overflow-hidden" id="event-sec">
+        <div class="container">
+            <div class="row justify-content-lg-between justify-content-center align-items-center">
+                <div class="col-lg-8">
+                    <div class="title-area text-center text-lg-start mb-50">
+                        <span class="sub-title text-anim">{{ page.events_subtitle }}</span>
+                        <h2 class="sec-title text-anim2">{{ page.events_title }}</h2>
+                    </div>
+                </div>
+                <div class="col-auto align-self-end">
+                    <div class="sec-btn wow fadeInUp">
+                        <a href="{{ page.events_explore_url }}" class="th-btn style-border1 th-icon">Explore All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="event-wrap">
+                {% for block in page.events %}
+                {% if block.block_type == 'event' %}
+                <div class="event-card wow fadeInUp" data-wow-delay=".{{ forloop.counter }}s">
+                    <div class="event-card-img global-img">
+                        {% image block.value.image original as ev_img %}
+                        <img src="{{ ev_img.url }}" alt="event">
+                        <p class="event-card-tag">
+                            <span class="tag-number">{{ block.value.day }}</span>{{ block.value.month }}
+                        </p>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-wrapp">
+                            <h3 class="box-title text-anim2">
+                                <a href="{{ block.value.link_url }}">{{ block.value.title }}</a>
+                            </h3>
+                            <p class="box-text">{{ block.value.description }}</p>
+                            <div class="blog-meta">
+                                <a class="location" href="#">
+                                    <i class="fa-solid fa-location-dot"></i> {{ block.value.location }}
+                                </a>
+                                <a class="date" href="#">
+                                    <i class="fa-regular fa-calendar-days"></i> {{ block.value.date|date:"d.m.Y" }}
+                                </a>
+                                <a class="time" href="#">
+                                    <i class="fa-solid fa-clock"></i>
+                                    {{ block.value.time_from|time:"h:iA" }} - {{ block.value.time_to|time:"h:iA" }}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="btn-wrap">
+                            <a class="th-btn style-border1 th-icon" href="{{ block.value.link_url }}">Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!--==============================
+    Apply to Stadum CTA
+    ==============================-->
+    <section class="apply-stadum-area bg-title position-relative space overflow-hidden">
+        <div class="container">
+            <div class="row gy-4 align-items-center justify-content-between">
+                <div class="col-xl-6 order-1 order-xl-0">
+                    <div class="apply-stadum-titlebox title-area">
+                        <span class="sub-title text-anim">{{ page.apply_subtitle }}</span>
+                        <h2 class="sec-title text-white text-anim2">{{ page.apply_title }}</h2>
+                        <p class="box-text text-white mt-25 wow fadeInUp" data-wow-delay=".2s">{{ page.apply_description }}</p>
+                    </div>
+                    {% for block in page.apply_checklist %}
+                    {% if block.block_type == 'checklist' %}
+                    <div class="apply-stadum-wrapp">
+                        <div class="apply-stadum-box">
+                            <div class="checklist">
+                                <ul class="list-unstyled">
+                                    {% for item in block.value.items_column_1 %}
+                                    <li class="wow fadeInUp">{{ item }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="checklist">
+                                <ul class="list-unstyled">
+                                    {% for item in block.value.items_column_2 %}
+                                    <li class="wow fadeInUp">{{ item }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="apply-stadum-action th-btn-wrap wow fadeInUp">
+                            <a href="{{ page.apply_btn_url }}" class="th-btn th-icon white-hover">
+                                {{ page.apply_btn_label }}
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% if page.apply_image %}
+                <div class="col-xl-6 order-0 order-xl-1">
+                    <div class="apply-stadum-thumb reveal">
+                        {% image page.apply_image original as apply_img %}
+                        <img src="{{ apply_img.url }}" alt="Apply">
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!--==============================
+    Chancellor Section
+    ==============================-->
+    <section class="chancellor-area position-relative space">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                {% if page.chancellor_image %}
+                <div class="col-xl-6">
+                    <div class="chancellor-thumb">
+                        {% image page.chancellor_image original as ch_img %}
+                        <img src="{{ ch_img.url }}" alt="{{ page.chancellor_name }}">
+                        <div class="ripple-shape style2">
+                            <span class="ripple-1"></span><span class="ripple-2"></span>
+                            <span class="ripple-3"></span><span class="ripple-4"></span>
+                            <span class="ripple-5"></span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="col-xl-6">
+                    <div class="chancellor-wrapp">
+                        <div class="chancellor-titlebox title-area">
+                            <span class="sub-title text-anim">{{ page.chancellor_subtitle }}</span>
+                            <h2 class="sec-title text-anim2">{{ page.chancellor_title }}</h2>
+                            <p class="box-text mt-25 wow fadeInUp" data-wow-delay=".4s">{{ page.chancellor_description }}</p>
+                        </div>
+                        {% if page.chancellor_skills %}
+                        <div class="chancellor-content">
+                            {% for block in page.chancellor_skills %}
+                            {% if block.block_type == 'skill_bar' %}
+                            <div class="skill-feature wow fadeInUp" data-wow-delay=".{{ forloop.counter }}s">
+                                <h3 class="skill-feature-title">{{ block.value.label }}</h3>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: {{ block.value.percentage }}%;">
+                                        <div class="progress-value">{{ block.value.percentage }}%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            <div class="chancellor-bottom">
+                                <div class="chancellor-action">
+                                    <a href="{{ page.chancellor_btn_url }}" class="th-btn th-icon">{{ page.chancellor_btn_label }}</a>
+                                </div>
+                                <div class="chancellor-signature-box text-sm-center">
+                                    <p class="box-text">{{ page.chancellor_name }}</p>
+                                    {% if page.chancellor_signature %}
+                                        {% image page.chancellor_signature original as sig_img %}
+                                        <img src="{{ sig_img.url }}" class="chancellor-signature" alt="signature">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--==============================
+    Marquee Strip
+    ==============================-->
+    {% if page.marquee_items %}
+    <div class="marquee-area space-bottom overflow-hidden">
+        <div class="container-fluid p-0">
+            <div class="swiper th-slider marquee-slider1"
+                data-slider-options='{"breakpoints":{"0":{"slidesPerView":"auto"}},"autoplay":{"delay":0,"disableOnInteraction":false},"noSwiping":"true","speed":10000,"spaceBetween":40}'>
+                <div class="swiper-wrapper">
+                    {% for block in page.marquee_items %}
+                    {% if block.block_type == 'item' %}
+                    <div class="swiper-slide">
+                        <div class="marquee-card">
+                            <div class="color-masking">
+                                {% image block.value.icon original as m_icon %}
+                                <img src="{{ m_icon.url }}" alt="icon">
+                            </div>
+                            <a target="_blank" href="{{ block.value.link_url }}">{{ block.value.text }}</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!--==============================
+    Community / Join CTA
+    ==============================-->
+    <div class="community-area space"
+        {% if page.community_bg_image %}
+        {% image page.community_bg_image original as comm_bg %}
+        data-bg-src="{{ comm_bg.url }}"
+        {% endif %}
+    >
+        <div class="container">
+            <div class="row">
+                <div class="col-xxl-7">
+                    <div class="community-wrap">
+                        <div class="title-area">
+                            <span class="sub-title text-anim">{{ page.community_subtitle }}</span>
+                            <h2 class="sec-title text-anim2 mb-55">{{ page.community_title }}</h2>
+                            <div class="box-text-wrap mt-30 wow fadeInUp" data-wow-delay=".3s">
+                                <p class="box-text">{{ page.community_description }}</p>
+                            </div>
+                        </div>
+                        <div class="btn-wrap wow fadeInUp" data-wow-delay=".4s">
+                            <a href="{{ page.community_btn_url }}" class="th-btn th-icon">{{ page.community_btn_label }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--==============================
+    FAQ Section
+    ==============================-->
+    {% if page.faq_items %}
+    <section class="faq-area-1 position-relative space overflow-hidden">
+        <div class="container">
+            <div class="row gy-30 gx-30 align-items-center justify-content-center">
+                <div class="col-xxl-4">
+                    <div class="faq-imgbox wow fadeInLeft" data-wow-delay=".3s">
+                        <div class="img1">
+                            {% if page.faq_image_1 %}
+                                {% image page.faq_image_1 original as faq_img1 %}
+                                <img src="{{ faq_img1.url }}" alt="FAQ">
+                            {% endif %}
+                            {% if page.faq_image_2 %}
+                                {% image page.faq_image_2 original as faq_img2 %}
+                                <img src="{{ faq_img2.url }}" alt="FAQ">
+                            {% endif %}
+                        </div>
+                        {% if page.faq_image_3 %}
+                        <div class="img2">
+                            {% image page.faq_image_3 original as faq_img3 %}
+                            <img src="{{ faq_img3.url }}" alt="FAQ">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-xxl-8">
+                    <div class="faq-content">
+                        <div class="faq-wrap">
+                            <div class="title-area">
+                                <span class="sub-title text-anim">{{ page.faq_subtitle }}</span>
+                                <h2 class="sec-title text-anim2">{{ page.faq_title }}</h2>
+                                <p class="box-text mt-20 wow fadeInUp" data-wow-delay=".3s">{{ page.faq_description }}</p>
+                            </div>
+                        </div>
+                        <div class="faq-box">
+                            <div class="faq-wrap1">
+                                <div class="accordion" id="faqAccordion">
+                                    {% for block in page.faq_items %}
+                                    {% if block.block_type == 'faq' %}
+                                    <div class="accordion-card wow fadeInUp" data-wow-delay=".{{ forloop.counter }}s">
+                                        <div class="accordion-header" id="collapse-item-{{ forloop.counter }}">
+                                            <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
+                                                type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapse-{{ forloop.counter }}"
+                                                aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+                                                0{{ forloop.counter }}. {{ block.value.question }}
+                                            </button>
+                                        </div>
+                                        <div id="collapse-{{ forloop.counter }}"
+                                            class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                                            aria-labelledby="collapse-item-{{ forloop.counter }}"
+                                            data-bs-parent="#faqAccordion">
+                                            <div class="accordion-body">
+                                                <p class="faq-text">{{ block.value.answer }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!--==============================
+    Blog / News Section
+    ==============================-->
+    {% if page.blog_posts %}
+    <section class="blog-area1 space overflow-hidden">
+        <div class="container">
+            <div class="row justify-content-lg-between justify-content-center align-items-center">
+                <div class="col-lg-8">
+                    <div class="title-area text-center text-lg-start mb-50">
+                        <span class="sub-title text-anim">{{ page.blog_subtitle }}</span>
+                        <h2 class="sec-title text-anim2">{{ page.blog_title }}</h2>
+                    </div>
+                </div>
+                <div class="col-auto align-self-end">
+                    <div class="sec-btn wow fadeInUp">
+                        <a href="{{ page.blog_explore_url }}" class="th-btn style-border1 th-icon">View All</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row gy-4">
+                {% for block in page.blog_posts %}
+                {% if block.block_type == 'post' %}
+                <div class="col-xl-4 col-md-6">
+                    <div class="blog-card wow fadeInUp" data-wow-delay=".{{ forloop.counter }}s">
+                        <div class="blog-img global-img">
+                            <a href="{{ block.value.link_url }}">
+                                {% image block.value.image original as bl_img %}
+                                <img src="{{ bl_img.url }}" alt="Blog">
+                            </a>
+                            <a class="blog-category" href="#">{{ block.value.category }}</a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <a href="#"><i class="far fa-calendar"></i> {{ block.value.date|date:"d/m/Y" }}</a>
+                                <a href="#"><i class="far fa-user"></i> {{ block.value.author }}</a>
+                            </div>
+                            <h3 class="box-title">
+                                <a href="{{ block.value.link_url }}">{{ block.value.title }}</a>
+                            </h3>
+                            <a href="{{ block.value.link_url }}" class="th-btn style-border1 th-icon">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!--==============================
+    Footer
+    ==============================-->
+    <footer class="footer-wrapper footer-layout1">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row gy-40">
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="widget footer-widget">
+                            <div class="th-widget-about">
+                                <div class="about-logo">
+                                    <a href="/">
+                                        {% if page.footer_logo %}
+                                            {% image page.footer_logo original as ft_logo %}
+                                            <img src="{{ ft_logo.url }}" alt="{{ page.title }}">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <p class="about-text">{{ page.footer_about_text }}</p>
+                                <div class="footer-info">
+                                    {% if page.footer_address %}
+                                    <a href="#">
+                                        <span class="footer-info-icon"><i class="fa-solid fa-location-dot"></i></span>
+                                        {{ page.footer_address }}
+                                    </a>
+                                    {% endif %}
+                                    {% if page.footer_email %}
+                                    <a href="mailto:{{ page.footer_email }}">
+                                        <span class="footer-info-icon"><i class="fa-solid fa-envelope"></i></span>
+                                        {{ page.footer_email }}
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-sm-4">
+                        <div class="widget widget_nav_menu footer-widget">
+                            <h3 class="widget_title">Quick Links</h3>
+                            <div class="menu-all-pages-container">
+                                <ul class="menu">
+                                    {% for item in page.nav_items.all %}
+                                    <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-sm-4">
+                        <div class="widget footer-widget">
+                            <h3 class="widget_title">Follow Us</h3>
+                            <div class="th-social">
+                                {% for link in page.social_links.all %}
+                                <a href="{{ link.url }}"><i class="fab fa-{{ link.platform }}"></i></a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-wrap z-index-common">
+            <div class="container">
+                <div class="row justify-content-center gy-3 align-items-center">
+                    <div class="col-lg-6">
+                        <p class="copyright-text">
+                            <i class="fal fa-copyright"></i> Copyright {{ page.footer_copyright_year }}
+                            <a href="/">{{ page.footer_copyright_name }}</a>. All Rights Reserved.
+                        </p>
+                    </div>
+                    <div class="col-lg-6 text-lg-end text-center">
+                        <div class="footer-links">
+                            <ul>
+                                {% for link in page.footer_links.all %}
+                                <li><a href="{{ link.url }}">{{ link.label }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll To Top -->
+    <div class="scroll-top">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"
+                style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+        </svg>
+    </div>
+
+    <!-- JS -->
+    <script src="{% static 'js/vendor/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
