@@ -1,0 +1,50 @@
+{# templates/partials/course_card.html
+   Used by homepage.html inside every tab panel.
+
+   Context variable: `course`  (HomePageCourse instance)
+
+   Keys:
+     course.image.url        → Cloudinary CDN thumbnail
+     course.lessons_count    → number of lessons
+     course.students_count   → number of students
+     course.title            → course name
+     course.id               → links card click → modal #blog-model-{id}
+     course.price            → decimal price
+     course.enroll_url       → enroll button href
+#}
+<div class="col-lg-4 col-md-6 col-sm-6 col-12 mx-auto all_column">
+    <div class="course-box all_boxes">
+
+        {# Course thumbnail — Cloudinary URL #}
+        <figure class="image mb-0">
+            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="img-fluid">
+        </figure>
+
+        <div class="lower_content all_boxes">
+            <div class="content">
+                <div class="calendar">
+                    <i class="fa-solid fa-book"></i>
+                    <span class="day">{{ course.lessons_count }} Lesson{{ course.lessons_count|pluralize }}</span>
+                </div>
+                <div class="people">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="person">{{ course.students_count }} Student{{ course.students_count|pluralize }}</span>
+                </div>
+            </div>
+
+            {# Clicking the title opens the modal for this course #}
+            <a href="#" class="text-decoration-none all_boxes"
+               data-toggle="modal" data-target="#blog-model-{{ course.id }}">
+                <h5>{{ course.title }}</h5>
+            </a>
+
+            <div class="value">
+                <span class="money">${{ course.price }}</span>
+                <a href="{{ course.enroll_url }}" class="text-decoration-none enroll_now">
+                    Enroll Now<i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>

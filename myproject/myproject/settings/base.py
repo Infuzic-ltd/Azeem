@@ -24,6 +24,8 @@ BASE_DIR = PROJECT_DIR.parent
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary',
+    'cloudinary_storage',
     "home",
     "search",
     "wagtail.contrib.forms",
@@ -81,7 +83,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "myproject.wsgi.application"
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dros5yiiy',   # e.g. 'educiza'
+    'API_KEY':    '795944798785142',
+    'API_SECRET': '1x3Wq5IEg8rur9b0Lh5lvSefhbA',
+}
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 

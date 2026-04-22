@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+{% load wagtailcore_tags wagtailimages_tags %}
+<html lang="zxx">
+
+<head>
+    <title>{{ page.title }} | Educiza</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta charset="utf-8">
+
+    {# ── SEO fields from Wagtail Promote tab ── #}
+    {% if page.search_description %}
+    <meta name="description" content="{{ page.search_description }}">
+    {% endif %}
+
+    <link rel="apple-touch-icon" sizes="57x57"   href="{% static 'assets/images/favicon/apple-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/images/favicon/apple-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/favicon/favicon-16x16.png' %}">
+
+    <link href="{% static 'assets/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="{% static 'assets/css/style.css' %}"              rel="stylesheet">
+    <link href="{% static 'assets/css/responsive.css' %}"         rel="stylesheet">
+    <link href="{% static 'assets/css/owl.carousel.min.css' %}"   rel="stylesheet">
+    <link href="{% static 'assets/css/owl.theme.default.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/aos.css' %}"                rel="stylesheet">
+    <link href="{% static 'assets/css/magnific-popup.css' %}"     rel="stylesheet">
+</head>
+
+<body>
+<!-- Back to top button -->
+<a id="button"></a>
+
+{# ════════════════════════════════════════════════════════════════
+   SECTION 1 — NAVBAR
+   Keys used:
+     page.nav_logo        → CloudinaryImageField  → .url = CDN URL
+     page.nav_phone       → CharField
+   ════════════════════════════════════════════════════════════════ #}
+<div class="home_banner_outer position-relative">
+    <header class="header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light p-0">
+
+                {# NAVBAR LOGO — page.nav_logo.url gives the Cloudinary CDN URL #}
+                <a class="navbar-brand" href="/">
+                    <figure class="logo mb-0">
+                        {% if page.nav_logo %}
+                            <img src="{{ page.nav_logo.url }}" alt="{{ page.title }} logo" class="img-fluid">
+                        {% else %}
+                            <img src="{% static 'assets/images/logo.png' %}" alt="logo" class="img-fluid">
+                        {% endif %}
+                    </figure>
+                </a>
+
+                <button class="navbar-toggler collapsed" type="button"
+                    data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown active">
+                            <a class="nav-link dropdown-toggle dropdown-color navbar-text-color"
+                               href="#" id="navbarDropdown1" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               Home
+                            </a>
+                            <div class="dropdown-menu drop-down-content">
+                                <ul class="list-unstyled drop-down-pages">
+                                    <li class="nav-item"><a class="dropdown-item nav-link" href="/">Home</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="/about/">About Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/courses/">Courses</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/blog/">Blog</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/contact/">Contact Us</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link log_in" href="/login/">
+                                Log in <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                {# PHONE NUMBER — page.nav_phone #}
+                <div class="phone-number">
+                    <i class="fa-solid fa-phone"></i>
+                    <a href="tel:{{ page.nav_phone }}" class="text-decoration-none">
+                        <span class="number">{{ page.nav_phone }}</span>
+                    </a>
+                </div>
+
+            </nav>
+        </div>
+    </header>
+
+
+    {# ════════════════════════════════════════════════════════════════
+       SECTION 2 — BANNER
+       Keys used:
+         page.banner_left_top_curve.url      → decorative image
+         page.banner_right_bottom_curve.url  → decorative image
+         page.banner_logo_icon.url           → small icon above heading
+         page.banner_heading                 → h1 text
+         page.banner_subtext                 → paragraph
+         page.banner_cta_text                → button label
+         page.banner_cta_url                 → button href
+         page.banner_dropdown_image.url      → scroll-down arrow image
+         page.banner_circle_image.url        → decorative
+         page.banner_cross_image.url         → decorative
+       ════════════════════════════════════════════════════════════════ #}
+    <section class="banner3-con position-relative">
+
+        {# Decorative curves — fall back to static if not uploaded in CMS #}
+        <figure class="banner-lefttopcurve image mb-0">
+            <img src="{% if page.banner_left_top_curve %}{{ page.banner_left_top_curve.url }}{% else %}{% static 'assets/images/banner3-lefttopcurve.png' %}{% endif %}"
+                 alt="" class="img-fluid">
+        </figure>
+        <figure class="banner-rightbottomcurve image mb-0">
+            <img src="{% if page.banner_right_bottom_curve %}{{ page.banner_right_bottom_curve.url }}{% else %}{% static 'assets/images/banner3-rightbottomcurve.png' %}{% endif %}"
+                 alt="" class="img-fluid">
+        </figure>
+
+        <div class="container position-relative">
+            <div class="row align-items-center">
+                <div class="col-lg-10 col-12 mx-auto">
+                    <div class="banner_content text-center position-relative" data-aos="fade-up">
+
+                        {# Logo icon above heading #}
+                        {% if page.banner_logo_icon %}
+                        <figure class="banner-logoicon">
+                            <img src="{{ page.banner_logo_icon.url }}" alt="" class="img-fluid">
+                        </figure>
+                        {% endif %}
+
+                        {# Main heading — page.banner_heading #}
+                        <h1 class="text-white">{{ page.banner_heading }}</h1>
+
+                        {# Subtext — page.banner_subtext #}
+                        <p class="text-white text-size-18">{{ page.banner_subtext }}</p>
+
+                        {# CTA button — page.banner_cta_text / page.banner_cta_url #}
+                        <a href="{{ page.banner_cta_url }}" class="text-decoration-none primary_btn">
+                            {{ page.banner_cta_text }}<i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-1 mx-auto">
+                    <a href="#dropdown" class="top-btn text-center">
+                        <figure class="banner-dropdownimage mb-0">
+                            <img src="{% if page.banner_dropdown_image %}{{ page.banner_dropdown_image.url }}{% else %}{% static 'assets/images/banner-dropdownimage.png' %}{% endif %}"
+                                 class="img-fluid" alt="">
+                        </figure>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <figure class="banner-circleimage mb-0">
+            <img src="{% if page.banner_circle_image %}{{ page.banner_circle_image.url }}{% else %}{% static 'assets/images/banner3-circleimage.png' %}{% endif %}"
+                 alt="" class="img-fluid">
+        </figure>
+        <figure class="banner-crossimage mb-0">
+            <img src="{% if page.banner_cross_image %}{{ page.banner_cross_image.url }}{% else %}{% static 'assets/images/banner3-crossimage.png' %}{% endif %}"
+                 alt="" class="img-fluid">
+        </figure>
+
+    </section>
+</div><!-- end home_banner_outer -->
+
+
+{# ════════════════════════════════════════════════════════════════
+   SECTION 3 — WHY CHOOSE US
+   Keys used:
+     page.choose_eyebrow            → h6
+     page.choose_heading            → h2
+     page.choose_text1              → paragraph 1
+     page.choose_text2              → paragraph 2
+     page.choose_cta_text           → button label
+     page.choose_cta_url            → button href
+     page.feature_boxes.all()       → QuerySet of HomePageFeatureBox
+       .icon_image.url              → icon image CDN URL
+       .title                       → box heading
+       .description                 → box paragraph
+       .link_url                    → arrow link href
+       .box_style                   → CSS class (box1 … box4)
+   ════════════════════════════════════════════════════════════════ #}
+<section class="choose3-con position-relative" id="dropdown">
+    <figure class="choose-halfcircleimage mb-0">
+        <img src="{% static 'assets/images/choose3-halfcircleimage.png' %}" alt="" class="img-fluid">
+    </figure>
+    <div class="container">
+        <div class="row align-items-center">
+
+            {# Left text column #}
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="choose_content position-relative" data-aos="fade-up">
+                    <h6>{{ page.choose_eyebrow }}</h6>
+                    <h2>{{ page.choose_heading }}</h2>
+                    <p class="text1 text-size-18">{{ page.choose_text1 }}</p>
+                    <p class="text2 text-size-18">{{ page.choose_text2 }}</p>
+                    <a href="{{ page.choose_cta_url }}" class="text-decoration-none primary_btn">
+                        {{ page.choose_cta_text }}<i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <figure class="choose-circleimage mb-0">
+                        <img src="{% static 'assets/images/choose3-circleimage.png' %}" alt="" class="img-fluid">
+                    </figure>
+                </div>
+            </div>
+
+            {# Right 2×2 feature-box grid — loops over feature_boxes inline #}
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="choose_contentbox" data-aos="fade-up">
+
+                    {# Row 1: boxes 1 & 2 #}
+                    <div class="row">
+                        {% for box in page.feature_boxes.all %}
+                            {% if forloop.counter <= 2 %}
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 column">
+                                <div class="{% if forloop.counter == 1 %}box-top{% endif %}">
+                                    <div class="choose-box {{ box.box_style }} {% if forloop.counter <= 2 %}box-mb{% endif %}">
+                                        {% if box.icon_image %}
+                                        <figure class="icon icon{{ forloop.counter }}">
+                                            <img src="{{ box.icon_image.url }}" alt="{{ box.title }}" class="img-fluid">
+                                        </figure>
+                                        {% endif %}
+                                        <h3>{{ box.title }}</h3>
+                                        <p class="text-size-16">{{ box.description }}</p>
+                                        <a href="{{ box.link_url }}" class="text-decoration-none arrow">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    {# Row 2: boxes 3 & 4 #}
+                    <div class="row">
+                        {% for box in page.feature_boxes.all %}
+                            {% if forloop.counter > 2 %}
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 column">
+                                <div class="{% if forloop.counter == 3 %}box-top{% endif %}">
+                                    <div class="choose-box {{ box.box_style }}">
+                                        {% if box.icon_image %}
+                                        <figure class="icon icon{{ forloop.counter }}">
+                                            <img src="{{ box.icon_image.url }}" alt="{{ box.title }}" class="img-fluid">
+                                        </figure>
+                                        {% endif %}
+                                        <h3>{{ box.title }}</h3>
+                                        <p class="text-size-16">{{ box.description }}</p>
+                                        <a href="{{ box.link_url }}" class="text-decoration-none arrow">
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{# ════════════════════════════════════════════════════════════════
+   SECTION 4 — ABOUT
+   Keys used:
+     page.about_image1.url          → large left photo
+     page.about_image2.url          → small overlay photo
+     page.about_video_url           → popup video href
+     page.about_play_icon.url       → play-button overlay image
+     page.about_eyebrow             → h6
+     page.about_heading             → h2
+     page.about_text                → paragraph
+     page.about_bullets.all()       → QuerySet of HomePageAboutBullet
+       .text                        → bullet text
+     page.about_mission_icon.url    → mission box icon
+     page.about_mission_text        → mission box heading
+   ════════════════════════════════════════════════════════════════ #}
+<section class="about3-con position-relative">
+    <figure class="about-rightimage mb-0">
+        <img src="{% static 'assets/images/about-rightimage.png' %}" alt="" class="img-fluid">
+    </figure>
+    <div class="container">
+        <div class="row">
+
+            {# Left: stacked images with video popup #}
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12 text-md-left text-center">
+                <div class="about_wrapper position-relative" data-aos="fade-up">
+
+                    {# Large image — page.about_image1 #}
+                    <figure class="about-image1 mb-0">
+                        <img src="{{ page.about_image1.url }}" alt="About Educiza" class="img-fluid">
+                    </figure>
+
+                    {# Overlay with video popup — page.about_image2 + page.about_video_url #}
+                    <div class="video-image">
+                        <figure class="about-image2 mb-0">
+                            <img src="{{ page.about_image2.url }}" alt="About video preview" class="img-fluid">
+                        </figure>
+                        <div class="icon">
+                            <a class="popup-vimeo" href="{{ page.about_video_url }}">
+                                <div class="mb-0 video-icon">
+                                    {% if page.about_play_icon %}
+                                    <img class="thumb img-fluid" style="cursor:pointer"
+                                         src="{{ page.about_play_icon.url }}" alt="Play video">
+                                    {% else %}
+                                    <img class="thumb img-fluid" style="cursor:pointer"
+                                         src="{% static 'assets/images/about3-playicon.png' %}" alt="Play video">
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            {# Right: text content #}
+            <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="about_content" data-aos="fade-up">
+
+                    <h6>{{ page.about_eyebrow }}</h6>
+                    <h2>{{ page.about_heading }}</h2>
+                    <p class="text-size-18 text">{{ page.about_text }}</p>
+
+                    {# Bullet list — loops over about_bullets inline #}
+                    <ul class="list-unstyled">
+                        {% for bullet in page.about_bullets.all %}
+                        <li>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            <p class="mb-0 text-size-16">{{ bullet.text }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    {# Mission box — page.about_mission_icon + page.about_mission_text #}
+                    <div class="box">
+                        {% if page.about_mission_icon %}
+                        <figure class="about-icon mb-0">
+                            <img src="{{ page.about_mission_icon.url }}" alt="" class="img-fluid">
+                        </figure>
+                        {% endif %}
+                        <h3 class="mb-0">{{ page.about_mission_text }}</h3>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{# ════════════════════════════════════════════════════════════════
+   SECTION 5 — COURSES  (tabbed)
+   Keys used:
+     page.courses_eyebrow            → h6
+     page.courses_heading            → h2
+     courses_all                     → context var: all courses
+     courses_design                  → context var: Design tab
+     courses_data_science            → context var: Data Science tab
+     courses_marketing               → context var: Marketing tab
+     courses_development             → context var: Development tab
+
+   Per course item (HomePageCourse):
+     course.image.url                → Cloudinary CDN image URL
+     course.lessons_count            → e.g. 8
+     course.students_count           → e.g. 70
+     course.title                    → course name
+     course.price                    → e.g. 87.00
+     course.enroll_url               → enroll button href
+     course.id                       → used to link card → modal (blog-model-{id})
+     course.modal_description        → modal body paragraph
+     course.modal_bullet_1/2/3       → modal checklist
+     course.modal_extra_text         → modal extra paragraph
+   ════════════════════════════════════════════════════════════════ #}
+<section class="course-popular-con">
+    <div class="popular-con position-relative">
+        <figure class="popular-lefttopimage mb-0">
+            <img src="{% static 'assets/images/popular-lefttopimage.png' %}" alt="" class="img-fluid">
+        </figure>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="popular_content text-center position-relative" data-aos="fade-up">
+                        <h6>{{ page.courses_eyebrow }}</h6>
+                        <h2 class="text-white">{{ page.courses_heading }}</h2>
+                        <figure class="popular-crossimage mb-0">
+                            <img src="{% static 'assets/images/contactform-crossimage.png' %}" alt="" class="img-fluid">
+                        </figure>
+                        <figure class="popular-triangleimage mb-0">
+                            <img src="{% static 'assets/images/popular-triangleimage.png' %}" alt="" class="img-fluid">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="course-con position-relative">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="tabs-box tabs-options">
+                        <ul class="nav nav-tabs" data-aos="fade-up">
+                            <li><a class="active" data-toggle="tab" href="#all">All</a></li>
+                            <li><a data-toggle="tab" href="#design">Design</a></li>
+                            <li><a data-toggle="tab" href="#data-science">Data Science</a></li>
+                            <li><a data-toggle="tab" href="#marketing">Marketing</a></li>
+                            <li><a data-toggle="tab" href="#development">Development</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            {# ── ALL tab ── #}
+                            <div id="all" class="tab-pane fade in active show">
+                                <div class="row all_row" data-aos="fade-up">
+                                    {% for course in courses_all %}
+                                    {% include "partials/course_card.html" with course=course %}
+                                    {% empty %}
+                                    <p class="text-center">No courses added yet.</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            {# ── DESIGN tab ── #}
+                            <div id="design" class="tab-pane fade">
+                                <div class="row all_row" data-aos="fade-up">
+                                    {% for course in courses_design %}
+                                    {% include "partials/course_card.html" with course=course %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            {# ── DATA SCIENCE tab ── #}
+                            <div id="data-science" class="tab-pane fade">
+                                <div class="row all_row" data-aos="fade-up">
+                                    {% for course in courses_data_science %}
+                                    {% include "partials/course_card.html" with course=course %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            {# ── MARKETING tab ── #}
+                            <div id="marketing" class="tab-pane fade">
+                                <div class="row all_row" data-aos="fade-up">
+                                    {% for course in courses_marketing %}
+                                    {% include "partials/course_card.html" with course=course %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            {# ── DEVELOPMENT tab ── #}
+                            <div id="development" class="tab-pane fade">
+                                <div class="row all_row" data-aos="fade-up">
+                                    {% for course in courses_development %}
+                                    {% include "partials/course_card.html" with course=course %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                        </div>{# end tab-content #}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{# ════════════════════════════════════════════════════════════════
+   SECTION 6 — BENEFITS / STATS  (counters)
+   Keys used:
+     page.benefits_eyebrow          → h6
+     page.benefits_heading          → h2
+     page.stats.all()               → QuerySet of HomePageStat
+       .number                      → counter end value (e.g. 95)
+       .suffix                      → symbol after number (e.g. %)
+       .label                       → text below (e.g. Satisfied Students)
+       .box_style                   → CSS class (box1 … box4)
+   ════════════════════════════════════════════════════════════════ #}
+<section class="benefit-con benefit3-con position-relative">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="benefit_content text-center" data-aos="fade-up">
+                    <h6>{{ page.benefits_eyebrow }}</h6>
+                    <h2>{{ page.benefits_heading }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row all_row" data-aos="fade-up">
+            {% for stat in page.stats.all %}
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6 all_column">
+                <div class="benefit-box {{ stat.box_style }}">
+                    <span class="number counter">{{ stat.number }}</span>
+                    <sup class="plus">{{ stat.suffix }}</sup>
+                    <span class="text">{{ stat.label }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{# ════════════════════════════════════════════════════════════════
+   SECTION 7 — JOURNEY CTA  (full-width coloured banner)
+   Keys used:
+     page.journey_logo_icon.url     → small icon above text
+     page.journey_eyebrow           → h6
+     page.journey_heading           → h2
+     page.journey_cta_text          → button label
+     page.journey_cta_url           → button href
+   ════════════════════════════════════════════════════════════════ #}
+<section class="journey-con position-relative">
+    <figure class="journey-lefttopcurve image mb-0">
+        <img src="{% static 'assets/images/journey-lefttopcurve.png' %}" alt="" class="img-fluid">
+    </figure>
+    <figure class="journey-rightbottomcurve image mb-0">
+        <img src="{% static 'assets/images/journey-rightbottomcurve.png' %}" alt="" class="img-fluid">
+    </figure>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-12 mx-auto">
+                <div class="journey_content text-center" data-aos="fade-up">
+
+                    {% if page.journey_logo_icon %}
+                    <figure class="journey-logoicon">
+                        <img src="{{ page.journey_logo_icon.url }}" alt="" class="img-fluid">
+                    </figure>
+                    {% endif %}
+
+                    <h6>{{ page.journey_eyebrow }}</h6>
+                    <h2 class="text-white">{{ page.journey_heading }}</h2>
+                    <a href="{{ page.journey_cta_url }}" class="text-decoration-none primary_btn">
+                        {{ page.journey_cta_text }}<i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{# ════════════════════════════════════════════════════════════════
+   SECTION 8 — TESTIMONIALS
+   Keys used:
+     page.testimonials_eyebrow         → h6
+     page.testimonials_heading         → h2
+     page.testimonial_quote_image.url  → quote icon shown on every card
+     page.testimonials.all()           → QuerySet of HomePageTestimonial
+       .person_image.url               → reviewer photo (Cloudinary CDN)
+       .review_text                    → review paragraph
+       .name                           → reviewer name
+       .role                           → e.g. "Happy Client"
+       .rating                         → integer 1-5 (stars)
+   ════════════════════════════════════════════════════════════════ #}
+<section class="testimonial3-con position-relative">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="testimonial_content text-center" data-aos="fade-up">
+                    <h6>{{ page.testimonials_eyebrow }}</h6>
+                    <h2>{{ page.testimonials_heading }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row" data-aos="fade-up">
+            <div class="col-12">
+                <div class="owl-carousel owl-theme">
+                    {% for review in page.testimonials.all %}
+                    <div class="item">
+                        <div class="testimonial-box">
+
+                            {# Quote icon — shared page.testimonial_quote_image #}
+                            {% if page.testimonial_quote_image %}
+                            <figure class="testimonial-quoteimage">
+                                <img src="{{ page.testimonial_quote_image.url }}" alt="" class="img-fluid">
+                            </figure>
+                            {% endif %}
+
+                            {# Review text — review.review_text #}
+                            <p class="text-size-16">{{ review.review_text }}</p>
+
+                            <div class="review-content">
+                                {# Person image — review.person_image.url #}
+                                <figure class="testimonial-personimage mb-0">
+                                    <img src="{{ review.person_image.url }}" alt="{{ review.name }}" class="img-fluid">
+                                </figure>
+                                <div class="detail">
+                                    {# Star rating — loops review.rating times #}
+                                    <ul class="list-unstyled">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= review.rating %}
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            {% else %}
+                                            <li><i class="fa-regular fa-star"></i></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                    <span class="name">{{ review.name }}</span>
+                                    <span class="review">{{ review.role }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{# ════════════════════════════════════════════════════════════════
+   SECTION 9 — BLOG ARTICLES
+   Keys used:
+     page.articles_eyebrow          → h6
+     page.articles_heading          → h2
+     page.articles.all()            → QuerySet of HomePageArticle
+       .image.url                   → article thumbnail (Cloudinary CDN)
+       .date                        → datetime.date object
+       .comment_count               → integer
+       .title                       → article heading
+       .excerpt                     → short text
+       .link_url                    → href for "Read More" link
+   ════════════════════════════════════════════════════════════════ #}
+<section class="article-con">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="article_content text-center" data-aos="fade-up">
+                    <h6>{{ page.articles_eyebrow }}</h6>
+                    <h2>{{ page.articles_heading }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row" data-aos="fade-up">
+            <div class="col-12">
+                <div class="owl-carousel owl-theme">
+                    {% for article in page.articles.all %}
+                    <div class="item">
+                        <div class="article-box">
+                            <figure class="mb-0">
+                                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid">
+                            </figure>
+                            <div class="box-content">
+                                <div class="span_wrapper">
+                                    {# article.date — format with Django date filter #}
+                                    <span>{{ article.date|date:"F d, Y" }}</span>
+                                    <span class="dash">-</span>
+                                    <span>{{ article.comment_count }} Comment{{ article.comment_count|pluralize }}</span>
+                                </div>
+                                <a href="{{ article.link_url }}" class="text-decoration-none">
+                                    <h4>{{ article.title }}</h4>
+                                </a>
+                                <p class="text-size-16">{{ article.excerpt }}</p>
+                                <a href="{{ article.link_url }}" class="read_more text-decoration-none">
+                                    Read More <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{# ════════════════════════════════════════════════════════════════
+   SECTION 10 — FOOTER
+   Keys used:
+     page.footer_right_image.url       → decorative right image
+     page.footer_logo.url              → footer logo (Cloudinary CDN)
+     page.footer_newsletter_label      → "Sign up for the newsletter:"
+     page.footer_about_text            → about column paragraph
+     social_links (context)            → QuerySet of SocialLink snippet
+       .platform                       → Font Awesome class string
+       .url                            → social URL
+     page.footer_useful_links.all()    → QuerySet of HomePageFooterUsefulLink
+       .label / .url
+     page.footer_explore_links.all()   → QuerySet of HomePageFooterExploreLink
+       .label / .url
+     page.footer_phone                 → contact phone
+     page.footer_email                 → contact email
+     page.footer_address               → address text
+     page.footer_address_url           → Google Maps URL
+     page.footer_copyright             → copyright string
+   ════════════════════════════════════════════════════════════════ #}
+<section class="footer-con position-relative">
+
+    {% if page.footer_right_image %}
+    <figure class="footer-rightimage mb-0">
+        <img src="{{ page.footer_right_image.url }}" class="img-fluid" alt="">
+    </figure>
+    {% endif %}
+
+    <div class="footer_upperportion position-relative">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="upper_portion">
+                        <a href="/">
+                            <figure class="footer-logo mb-0">
+                                <img class="img-fluid" src="{{ page.footer_logo.url }}" alt="{{ page.title }} logo">
+                            </figure>
+                        </a>
+                        <h4>{{ page.footer_newsletter_label }}</h4>
+                        <form action="javascript:;">
+                            <div class="form-group position-relative mb-0">
+                                <input type="email" class="form_style" placeholder="Enter Email Address" name="email">
+                                <button type="submit">
+                                    <i class="send fa-sharp fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer_lowerportion position-relative">
+        <div class="container">
+            <div class="middle_portion">
+                <div class="row">
+
+                    {# Column 1: About + social icons #}
+                    <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12 col-12">
+                        <div class="logo-content">
+                            <h4 class="heading">About Us</h4>
+                            <p class="text-size-14 text">{{ page.footer_about_text }}</p>
+                            <ul class="list-unstyled mb-0 social-icons">
+                                {% for link in social_links %}
+                                <li>
+                                    <a href="{{ link.url }}" class="text-decoration-none" target="_blank" rel="noopener">
+                                        <i class="{{ link.platform }} social-networks"></i>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    {# Column 2: Useful Links #}
+                    <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-6">
+                        <div class="links">
+                            <h4 class="heading">Useful Links</h4>
+                            <ul class="list-unstyled mb-0">
+                                {% for link in page.footer_useful_links.all %}
+                                <li>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    <a href="{{ link.url }}">{{ link.label }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    {# Column 3: Explore #}
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6">
+                        <div class="use-link links">
+                            <h4 class="heading">Explore</h4>
+                            <ul class="list-unstyled mb-0">
+                                {% for link in page.footer_explore_links.all %}
+                                <li>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    <a href="{{ link.url }}">{{ link.label }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    {# Column 4: Contact details #}
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
+                        <div class="icon">
+                            <h4 class="heading">Contact Us</h4>
+                            <ul class="list-unstyled mb-0">
+                                <li class="text">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <a href="tel:{{ page.footer_phone }}" class="text-decoration-none">
+                                        {{ page.footer_phone }}
+                                    </a>
+                                </li>
+                                <li class="text">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <a href="mailto:{{ page.footer_email }}" class="text-decoration-none">
+                                        {{ page.footer_email }}
+                                    </a>
+                                </li>
+                                <li class="text">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <a href="{{ page.footer_address_url }}" class="text-decoration-none address mb-0"
+                                       target="_blank" rel="noopener">
+                                        {{ page.footer_address }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p class="mb-0">{{ page.footer_copyright }}</p>
+        </div>
+    </div>
+</section>
+
+
+{# ════════════════════════════════════════════════════════════════
+   COURSE MODAL POPUPS
+   Keys used:
+     courses_all (context)           → loop over all courses
+     course.id                       → modal id="blog-model-{course.id}"
+     course.image.url                → modal image (Cloudinary CDN)
+     course.title                    → modal heading
+     course.modal_description        → modal paragraph
+     course.modal_bullet_1/2/3       → modal tick list items
+     course.modal_extra_text         → modal extra paragraph
+     course.enroll_url               → "Read More" button href
+   ════════════════════════════════════════════════════════════════ #}
+{% for course in courses_all %}
+<div class="project_modal">
+    <div id="blog-model-{{ course.id }}" class="modal fade blog-model-con"
+         tabindex="-1" style="display:none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa-solid fa-x"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="blog-box-item mb-0">
+                        <div class="blog-img">
+                            <figure class="mb-0">
+                                <img src="{{ course.image.url }}" alt="{{ course.title }}" class="img-fluid">
+                            </figure>
+                        </div>
+                        <div class="project_content">
+                            <h4>{{ course.title }}</h4>
+                            {% if course.modal_description %}
+                            <span class="text">{{ course.modal_description }}</span>
+                            {% endif %}
+                            {% if course.modal_bullet_1 or course.modal_bullet_2 or course.modal_bullet_3 %}
+                            <div class="properties">
+                                <ul class="list-unstyled mb-0">
+                                    {% if course.modal_bullet_1 %}
+                                    <li class="text-size-16">
+                                        <i class="circle fa fa-check" aria-hidden="true"></i>
+                                        {{ course.modal_bullet_1 }}
+                                    </li>
+                                    {% endif %}
+                                    {% if course.modal_bullet_2 %}
+                                    <li class="text-size-16">
+                                        <i class="circle fa fa-check" aria-hidden="true"></i>
+                                        {{ course.modal_bullet_2 }}
+                                    </li>
+                                    {% endif %}
+                                    {% if course.modal_bullet_3 %}
+                                    <li class="text-size-16">
+                                        <i class="circle fa fa-check" aria-hidden="true"></i>
+                                        {{ course.modal_bullet_3 }}
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                            {% if course.modal_extra_text %}
+                            <span class="text">{{ course.modal_extra_text }}</span>
+                            {% endif %}
+                            <a href="{{ course.enroll_url }}" class="text-decoration-none primary_btn">
+                                Read More<i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<!-- Pre-loader -->
+<div class="loader-mask">
+    <div class="loader"><div></div><div></div></div>
+</div>
+
+<!-- Scripts -->
+<script src="{% static 'assets/js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/aos.js' %}"></script>
+<script src="{% static 'assets/js/owl.carousel.js' %}"></script>
+<script src="{% static 'assets/js/carousel.js' %}"></script>
+<script src="{% static 'assets/js/animation.js' %}"></script>
+<script src="{% static 'assets/js/back-to-top-button.js' %}"></script>
+<script src="{% static 'assets/js/preloader.js' %}"></script>
+<script src="{% static 'assets/js/counter.js' %}"></script>
+<script src="{% static 'assets/js/video.js' %}"></script>
+<script src="{% static 'assets/js/video-popup.js' %}"></script>
+
+</body>
+</html>
